@@ -23,7 +23,7 @@ export default function AnswerDiff({ expected, actual }: AnswerDiffProps) {
             }`}
           >
             {w.word}
-            {w.status === 'missing' && <span className="opacity-60 text-[12px]"> (missing)</span>}
+            {w.status === 'missing' && <span className="opacity-60 text-3"> (missing)</span>}
           </span>
         ))}
       </div>
@@ -37,7 +37,7 @@ export default function AnswerDiff({ expected, actual }: AnswerDiffProps) {
         <span className={`text-[13px] font-semibold ${score >= 70 ? 'text-[#30D158]' : 'text-[#FF9F0A]'}`}>
           {score}%
         </span>
-        <span className={`text-[12px] font-medium ${score >= 70 ? 'text-[#30D158]' : 'text-[#FF9F0A]'}`}>
+        <span className={`text-3 font-medium ${score >= 70 ? 'text-[#30D158]' : 'text-[#FF9F0A]'}`}>
           {score >= 90 ? '🎉 Excellent!' : score >= 70 ? '✓ Good job' : score >= 50 ? '💪 Almost' : '📚 Keep going'}
         </span>
       </div>

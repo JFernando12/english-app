@@ -1,5 +1,5 @@
 import { getSentencesRepository } from '@/lib/repositories';
-import PracticeSession from '@/components/practice-session';
+import PracticeSessionClient from '@/components/practice-session-client';
 import Link from 'next/link';
 
 interface PageProps {
@@ -22,7 +22,7 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
   if (!sentences) {
     return (
     <main className="min-h-screen bg-[#0D0E14] flex flex-col items-center justify-center px-5 text-center">
-        <h1 className="text-[28px] font-bold text-[#EEEEF8] mb-3">Lesson not found</h1>
+        <h1 className="text-7 font-bold text-[#EEEEF8] mb-3">Lesson not found</h1>
         <p className="text-[15px] text-[#8888A8] mb-8">The lesson &quot;{lessonId}&quot; does not exist.</p>
         <Link href="/basic" className="text-[#7C6FF7] text-[17px]">← Back to lessons</Link>
       </main>
@@ -31,7 +31,7 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
 
   return (
     <main className="min-h-screen bg-[#0D0E14]">
-      <PracticeSession sessionId={lessonId} sentences={sentences} size={size} />
+      <PracticeSessionClient sessionId={lessonId} sentences={sentences} size={size} />
     </main>
   );
 }

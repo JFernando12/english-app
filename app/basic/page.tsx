@@ -49,7 +49,7 @@ export default async function BasicPage() {
         <div className="bg-[#161720] border border-[#252638] rounded-xl overflow-hidden divide-y divide-[#252638] mb-5">
           {(Object.keys(LEVEL_CONFIG) as Level[]).map((level) => (
             <div key={level} className="flex items-center gap-3 px-4 h-12">
-              <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: LEVEL_CONFIG[level].color }} />
+              <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: LEVEL_CONFIG[level].color }} />
               <span className="text-sm text-[#EEEEF8] flex-1 capitalize">{level}</span>
               <span className="text-xs text-[#8888A8]">{counts[level]} sentences</span>
             </div>
@@ -71,14 +71,14 @@ export default async function BasicPage() {
                 href={href}
                 className="flex items-center gap-4 p-4 rounded-xl border transition-all duration-150 bg-[#161720] border-[#252638] cursor-pointer hover:border-[#3A3A50] active:scale-[0.99] group"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#7C6FF7]/10 text-[#7C6FF7] flex-shrink-0 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-[#7C6FF7]/10 text-[#7C6FF7] shrink-0 flex items-center justify-center">
                   <span className="text-base font-bold">{label}</span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <span className="text-sm font-semibold text-[#EEEEF8]">{title}</span>
                   <p className="text-xs text-[#8888A8] mt-0.5 truncate">{displaySub}</p>
                 </div>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 flex-shrink-0 text-[#7C6FF7] transition-transform group-hover:translate-x-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 shrink-0 text-[#7C6FF7] transition-transform group-hover:translate-x-0.5">
                   <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
                 </svg>
               </Link>

@@ -1,26 +1,27 @@
 import 'server-only';
 import { Lesson, Sentence } from '@/lib/types';
 import { ISentencesRepository } from '../sentences-repository';
-import lessonsData from '../../../sentences/lessons.json';
+import sentencesData from '../../../sentences/lessons.json';
 
-let _cache: Lesson[] | null = null;
+let _cache: Sentence[] | null = null;
 
-function loadAll(): Lesson[] {
+function loadAll(): Sentence[] {
   if (_cache) return _cache;
-  _cache = lessonsData as Lesson[];
+  _cache = sentencesData as Sentence[];
   return _cache;
 }
 
 export class JsonSentencesRepository implements ISentencesRepository {
   async getAllLessons(): Promise<Lesson[]> {
-    return loadAll();
+    return [{ id: 'all', lessonNumber: 1, sentences: loadAll() }];
   }
 
   async getLessonById(id: string): Promise<Lesson | null> {
-    return loadAll().find((l) => l.id === id) ?? null;
+    if (id === 'all') return { id: 'all', lessonNumber: 1, sentences: loadAll() };
+    return null;
   }
 
   async getAllSentences(): Promise<Sentence[]> {
-    return loadAll().flatMap((l) => l.sentences);
+    return loadAll();
   }
 }

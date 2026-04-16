@@ -9,6 +9,29 @@ import AnswerDiff from './answer-diff';
 
 const repo = new LocalStorageProgressRepository();
 
+function speak(text: string) {
+  if (typeof window === 'undefined' || !window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'en-US';
+  speechSynthesis.speak(utterance);
+}
+
+function SpeakButton({ text }: { text: string }) {
+  return (
+    <button
+      onClick={() => speak(text)}
+      aria-label="Speak English sentence"
+      className="flex items-center justify-center w-8 h-8 rounded-full text-[#8888A8] hover:text-[#EEEEF8] active:opacity-70 transition-all"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+        <path d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 0 0 1.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.659 1.905h1.93l4.5 4.5c.945.945 2.561.276 2.561-1.06V4.06ZM18.584 5.106a.75.75 0 0 1 1.06 0c3.808 3.807 3.808 9.98 0 13.788a.75.75 0 0 1-1.06-1.06 8.25 8.25 0 0 0 0-11.668.75.75 0 0 1 0-1.06Z" />
+        <path d="M15.932 7.757a.75.75 0 0 1 1.061 0 6 6 0 0 1 0 8.486.75.75 0 0 1-1.06-1.061 4.5 4.5 0 0 0 0-6.364.75.75 0 0 1 0-1.06Z" />
+      </svg>
+    </button>
+  );
+}
+
 const LEVEL_BADGE: Record<Level, { label: string; color: string }> = {
   beginner:     { label: 'Beginner',     color: 'text-[#30D158] bg-[#30D158]/10' },
   intermediate: { label: 'Intermediate', color: 'text-[#FF9F0A] bg-[#FF9F0A]/10' },
@@ -109,7 +132,13 @@ export default function PracticeSession({
 
   function switchMode(m: Mode) {
     setMode(m);
-    reset();
+    setCurrentIndex(0);
+    setShowAnswer(false);
+    setUserInput('');
+    setChecked(false);
+    setCheckedScore(0);
+    setResults([]);
+    setFinished(false);
   }
 
   // ── Keyboard shortcuts ─────────────────────────────────────────────────────
@@ -202,25 +231,25 @@ export default function PracticeSession({
           {/* Header */}
           <div className="text-center">
             <div className="text-6xl mb-4">{emoji}</div>
-            <h2 className="text-[26px] font-bold text-[#EEEEF8]">Session Complete!</h2>
-            <p className="text-[14px] text-[#8888A8] mt-1">{deck.length} sentences reviewed</p>
+            <h2 className="text-6.5 font-bold text-[#EEEEF8]">Session Complete!</h2>
+            <p className="text-3.5 text-[#8888A8] mt-1">{deck.length} sentences reviewed</p>
           </div>
 
           {/* Overall score */}
           <div className="bg-[#161720] border border-[#252638] rounded-2xl p-6 text-center">
             {mode === 'flashcard' ? (
               <>
-                <p className="text-[48px] font-bold text-[#EEEEF8] leading-none">
-                  {correctCount}<span className="text-[28px] text-[#8888A8]">/{deck.length}</span>
+                <p className="text-12 font-bold text-[#EEEEF8] leading-none">
+                  {correctCount}<span className="text-7 text-[#8888A8]">/{deck.length}</span>
                 </p>
-                <p className="text-[14px] text-[#8888A8] mt-2">sentences correct</p>
+                <p className="text-3.5 text-[#8888A8] mt-2">sentences correct</p>
               </>
             ) : (
               <>
-                <p className="text-[48px] font-bold text-[#EEEEF8] leading-none">
-                  {avg}<span className="text-[28px] text-[#8888A8]">%</span>
+                <p className="text-12 font-bold text-[#EEEEF8] leading-none">
+                  {avg}<span className="text-7 text-[#8888A8]">%</span>
                 </p>
-                <p className="text-[14px] text-[#8888A8] mt-2">accuracy</p>
+                <p className="text-3.5 text-[#8888A8] mt-2">accuracy</p>
               </>
             )}
           </div>
@@ -241,11 +270,11 @@ export default function PracticeSession({
                   <div key={ls.level} className="px-5 py-3 space-y-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className={`w-2 h-2 rounded-full flex-shrink-0 ${LEVEL_DOT[ls.level]}`} />
-                        <span className="text-[14px] font-medium text-[#EEEEF8] capitalize">{ls.level}</span>
-                        <span className="text-[12px] text-[#8888A8]">{ls.count}</span>
+                        <span className={`w-2 h-2 rounded-full shrink-0 ${LEVEL_DOT[ls.level]}`} />
+                        <span className="text-3.5 font-medium text-[#EEEEF8] capitalize">{ls.level}</span>
+                        <span className="text-3 text-[#8888A8]">{ls.count}</span>
                       </div>
-                      <span className="text-[14px] font-semibold text-[#EEEEF8]">{pct}%</span>
+                      <span className="text-3.5 font-semibold text-[#EEEEF8]">{pct}%</span>
                     </div>
                     <div className="h-1.5 bg-[#252638] rounded-full overflow-hidden">
                       <div
@@ -263,13 +292,13 @@ export default function PracticeSession({
           <div className="flex flex-col gap-3">
             <button
               onClick={reset}
-              className="w-full h-12 rounded-xl bg-[#7C6FF7] text-white text-[16px] font-semibold active:opacity-80 transition-opacity"
+              className="w-full h-12 rounded-xl bg-[#7C6FF7] text-white text-4 font-semibold active:opacity-80 transition-opacity"
             >
               Practice Again
             </button>
             <Link
               href="/basic"
-              className="w-full h-12 rounded-xl bg-[#161720] border border-[#252638] text-[#EEEEF8] text-[16px] font-semibold flex items-center justify-center active:opacity-80 transition-opacity"
+              className="w-full h-12 rounded-xl bg-[#161720] border border-[#252638] text-[#EEEEF8] text-4 font-semibold flex items-center justify-center active:opacity-80 transition-opacity"
             >
               Back to Lessons
             </Link>
@@ -317,7 +346,7 @@ export default function PracticeSession({
             <button
               key={m}
               onClick={() => switchMode(m)}
-              className={`flex-1 py-1.5 rounded-[10px] text-[13px] font-semibold transition-all ${
+              className={`flex-1 py-1.5 rounded-2.5 text-[13px] font-semibold transition-all ${
                 mode === m
                   ? 'bg-[#1E1F2E] text-[#EEEEF8] shadow-sm'
                   : 'text-[#8888A8]'
@@ -357,7 +386,10 @@ export default function PracticeSession({
             ) : (
               <div className="space-y-4">
                 <div className="bg-[#30D158]/8 border border-[#30D158]/20 rounded-2xl p-5">
-                  <p className="text-[12px] font-semibold text-[#30D158] uppercase tracking-wider mb-3">English</p>
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-3 font-semibold text-[#30D158] uppercase tracking-wider">English</p>
+                    <SpeakButton text={current.english} />
+                  </div>
                   <p className="text-[19px] text-[#EEEEF8] leading-relaxed">{current.english}</p>
                 </div>
                 <div className="flex gap-3">
@@ -389,7 +421,7 @@ export default function PracticeSession({
         {mode === 'typing' && (
           <div className="space-y-4">
             <div className="bg-[#161720] border border-[#252638] rounded-2xl p-4">
-              <p className="text-[12px] font-semibold text-[#55556A] uppercase tracking-wider mb-2">Your answer</p>
+              <p className="text-3 font-semibold text-[#55556A] uppercase tracking-wider mb-2">Your answer</p>
               <textarea
                 ref={textareaRef}
                 value={userInput}
@@ -403,10 +435,13 @@ export default function PracticeSession({
 
             {checked && (
               <div className="bg-[#161720] border border-[#252638] rounded-2xl p-4 space-y-3">
-                <p className="text-[12px] font-semibold text-[#55556A] uppercase tracking-wider">Result</p>
+                <p className="text-3 font-semibold text-[#55556A] uppercase tracking-wider">Result</p>
                 <AnswerDiff expected={current.english} actual={userInput} />
                 <div className="pt-3 border-t border-[#252638]">
-                  <p className="text-[11px] font-semibold text-[#55556A] uppercase tracking-wider mb-1.5">Correct answer</p>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <p className="text-[11px] font-semibold text-[#55556A] uppercase tracking-wider">Correct answer</p>
+                    <SpeakButton text={current.english} />
+                  </div>
                   <p className="text-[15px] text-[#EEEEF8] leading-relaxed">{current.english}</p>
                 </div>
               </div>
