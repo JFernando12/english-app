@@ -95,7 +95,69 @@ if ($arbitraryIssues.Count -gt 0) {
   Write-Host "✅ No replaceable arbitrary px values found." -ForegroundColor Green
 }
 
-# ── 2. Production build ──────────────────────────────────────────────────────
+# ── 3. Mobile-first audit ────────────────────────────────────────────────────
+# Rules from copilot-instructions.md:
+#   - Touch targets must be at least 44px tall (h-11 = 44px)
+#   - Avoid hover-only interactions (hover: must have a matching active: equivalent)
+#   - Use exact color tokens, not Tailwind named colors (e.g. bg-blue-500 is wrong)
+#   - Hard-coded color tokens to use: #F2F2F7, #007AFF, #34C759, #FF3B30, #FF9500, #6C6C70
+$mobileIssues = @()
+
+Write-Host "`n📱 Running mobile-first audit..." -ForegroundColor Cyan
+
+# 3a. hover: without matching active: on the same element
+foreach ($dir in $searchDirs) {
+  $dirPath = Join-Path $root $dir
+  if (-not (Test-Path $dirPath)) { continue }
+
+  foreach ($ext in $extensions) {
+    Get-ChildItem -Path $dirPath -Filter $ext -Recurse | ForEach-Object {
+      $file = $_
+      $lines = Get-Content -LiteralPath $file.FullName
+      $lineNum = 0
+      foreach ($line in $lines) {
+        $lineNum++
+        # Flag hover: classes that have no active: sibling on the same line
+        if ($line -match 'hover:[a-zA-Z0-9_\-\[\]\/]+' -and $line -notmatch 'active:[a-zA-Z0-9_\-\[\]\/]+') {
+          $mobileIssues += "  $($file.FullName.Replace($root + '\', '')) (line $lineNum): hover-only interaction (add matching ``active:`` for touch) — $($line.Trim())"
+        }
+      }
+    }
+  }
+}
+
+# 3b. Tailwind named colors used instead of project color tokens
+# Allowed named colors in this project (used for non-brand purposes): white, black, transparent, current
+$namedColorRegex = '\b(bg|text|border|ring|fill|stroke)-(red|blue|green|yellow|purple|pink|indigo|orange|teal|cyan|gray|slate|zinc|neutral|stone|amber|lime|emerald|violet|fuchsia|rose|sky)-(\d{2,3})\b'
+foreach ($dir in $searchDirs) {
+  $dirPath = Join-Path $root $dir
+  if (-not (Test-Path $dirPath)) { continue }
+
+  foreach ($ext in @('*.tsx', '*.jsx')) {
+    Get-ChildItem -Path $dirPath -Filter $ext -Recurse | ForEach-Object {
+      $file = $_
+      $lines = Get-Content -LiteralPath $file.FullName
+      $lineNum = 0
+      foreach ($line in $lines) {
+        $lineNum++
+        $colorMatches = [regex]::Matches($line, $namedColorRegex)
+        foreach ($cm in $colorMatches) {
+          $mobileIssues += "  $($file.FullName.Replace($root + '\', '')) (line $lineNum): Tailwind named color ``$($cm.Value)`` — use project color tokens (e.g. bg-[#007AFF]) instead"
+        }
+      }
+    }
+  }
+}
+
+if ($mobileIssues.Count -gt 0) {
+  Write-Host "⚠️  Mobile-first / design system violations:" -ForegroundColor Yellow
+  $mobileIssues | ForEach-Object { Write-Host $_ -ForegroundColor Yellow }
+  $issues += $mobileIssues
+} else {
+  Write-Host "✅ Mobile-first audit passed." -ForegroundColor Green
+}
+
+# ── 4. Production build ──────────────────────────────────────────────────────
 Write-Host "`n🔨 Running production build..." -ForegroundColor Cyan
 $buildOutput = & npm run build 2>&1
 $buildExitCode = $LASTEXITCODE

@@ -4,13 +4,14 @@ import Link from 'next/link';
 
 interface PageProps {
   params: Promise<{ lessonId: string }>;
-  searchParams: Promise<{ size?: string }>;
+  searchParams: Promise<{ size?: string; dir?: string }>;
 }
 
 export default async function LessonPage({ params, searchParams }: PageProps) {
   const { lessonId } = await params;
-  const { size: sizeParam } = await searchParams;
+  const { size: sizeParam, dir } = await searchParams;
   const size = sizeParam ? parseInt(sizeParam, 10) : undefined;
+  const direction = dir ?? 'es-to-en';
 
   const repo = getSentencesRepository();
 
@@ -31,7 +32,7 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
 
   return (
     <main className="min-h-screen bg-[#0D0E14]">
-      <PracticeSessionClient sessionId={lessonId} sentences={sentences} size={size} />
+      <PracticeSessionClient sessionId={lessonId} sentences={sentences} size={size} direction={direction} />
     </main>
   );
 }

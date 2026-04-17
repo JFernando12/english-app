@@ -2,26 +2,26 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { Sentence, Level } from '@/lib/types';
+import { Sentence, Level, Direction, LANGUAGES, DEFAULT_DIRECTION, parseDirection } from '@/lib/types';
 import { LocalStorageProgressRepository } from '@/lib/repositories/impl/local-storage-progress-repository';
 import { checkAnswer } from '@/lib/utils/answer-checker';
 import AnswerDiff from './answer-diff';
 
 const repo = new LocalStorageProgressRepository();
 
-function speak(text: string) {
+function speak(text: string, locale: string) {
   if (typeof window === 'undefined' || !window.speechSynthesis) return;
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'en-US';
+  utterance.lang = locale;
   speechSynthesis.speak(utterance);
 }
 
-function SpeakButton({ text }: { text: string }) {
+function SpeakButton({ text, locale }: { text: string; locale: string }) {
   return (
     <button
-      onClick={() => speak(text)}
-      aria-label="Speak English sentence"
+      onClick={() => speak(text, locale)}
+      aria-label="Speak sentence"
       className="flex items-center justify-center w-8 h-8 rounded-full text-[#8888A8] hover:text-[#EEEEF8] active:opacity-70 transition-all"
     >
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -65,11 +65,23 @@ export default function PracticeSession({
   sessionId,
   sentences,
   size,
+  direction = DEFAULT_DIRECTION,
 }: {
   sessionId: string;
   sentences: Sentence[];
   size?: number;
+  direction?: Direction;
 }) {
+  const { from, to } = parseDirection(direction);
+  const fromLang = LANGUAGES[from] ?? { label: from, flag: '', locale: from };
+  const toLang   = LANGUAGES[to]   ?? { label: to,   flag: '', locale: to };
+
+  function getPrompt(s: Sentence): string {
+    return from === 'es' ? s.spanish : s.english;
+  }
+  function getAnswer(s: Sentence): string {
+    return to === 'en' ? s.english : s.spanish;
+  }
   const buildDeck = useCallback(
     () => (size ? shuffle(sentences).slice(0, size) : shuffle(sentences)),
     [sentences, size]
@@ -86,8 +98,8 @@ export default function PracticeSession({
   const [finished, setFinished] = useState(false);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const snap = useRef({ mode, showAnswer, finished, checked, userInput, checkedScore, results, currentIndex, deck });
-  snap.current = { mode, showAnswer, finished, checked, userInput, checkedScore, results, currentIndex, deck };
+  const snap = useRef({ mode, showAnswer, finished, checked, userInput, checkedScore, results, currentIndex, deck, getAnswer });
+  snap.current = { mode, showAnswer, finished, checked, userInput, checkedScore, results, currentIndex, deck, getAnswer };
 
   const current = deck[currentIndex];
   const progressPct = ((currentIndex) / deck.length) * 100;
@@ -167,7 +179,7 @@ export default function PracticeSession({
       if (s.mode === 'typing' && inTextarea && e.key === 'Enter' && !e.shiftKey) {
         if (!s.checked && s.userInput.trim()) {
           e.preventDefault();
-          const { score } = checkAnswer(s.userInput, s.deck[s.currentIndex].english);
+          const { score } = checkAnswer(s.userInput, s.getAnswer(s.deck[s.currentIndex]));
           setCheckedScore(score);
           setChecked(true);
         } else if (s.checked) {
@@ -198,7 +210,7 @@ export default function PracticeSession({
   }
 
   function handleCheck() {
-    const { score } = checkAnswer(userInput, current.english);
+    const { score } = checkAnswer(userInput, getAnswer(current));
     setCheckedScore(score);
     setChecked(true);
   }
@@ -316,7 +328,7 @@ export default function PracticeSession({
       <div className="sticky top-0 z-10 bg-[#0D0E14]/95 backdrop-blur-sm border-b border-[#252638]">
         <div className="max-w-lg mx-auto px-4">
           <div className="h-16 flex items-center justify-between">
-            <Link href="/basic" className="flex items-center gap-1.5 text-[#8888A8] hover:text-[#EEEEF8] transition-colors">
+            <Link href="/basic" className="flex items-center gap-1.5 text-[#8888A8] hover:text-[#EEEEF8] active:text-[#EEEEF8] transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
                 <path d="m15 18-6-6 6-6"/>
               </svg>
@@ -338,7 +350,7 @@ export default function PracticeSession({
       </div>
 
       {/* Content */}
-      <div className="flex-1 max-w-lg mx-auto w-full px-5 pt-6 pb-8 flex flex-col gap-4">
+      <div className="flex-1 max-w-lg mx-auto w-full px-5 pt-6 pb-16 flex flex-col gap-4">
 
         {/* Mode toggle */}
         <div className="bg-[#161720] border border-[#252638] p-0.5 rounded-xl flex self-center w-full">
@@ -357,17 +369,20 @@ export default function PracticeSession({
           ))}
         </div>
 
-        {/* Spanish prompt card */}
+        {/* Prompt card */}
         <div className="bg-[#161720] border border-[#252638] rounded-2xl p-5">
           <div className="flex items-center justify-between mb-3">
             <p className="text-[11px] font-semibold text-[#55556A] uppercase tracking-wider">
-              Spanish · {currentIndex + 1} of {deck.length}
+              {fromLang.flag} {fromLang.label} · {currentIndex + 1} of {deck.length}
             </p>
-            <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${LEVEL_BADGE[current.level].color}`}>
-              {LEVEL_BADGE[current.level].label}
-            </span>
+            <div className="flex items-center gap-2">
+              <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${LEVEL_BADGE[current.level].color}`}>
+                {LEVEL_BADGE[current.level].label}
+              </span>
+              <SpeakButton text={getPrompt(current)} locale={fromLang.locale} />
+            </div>
           </div>
-          <p className="text-[19px] text-[#EEEEF8] leading-relaxed">{current.spanish}</p>
+          <p className="text-[19px] text-[#EEEEF8] leading-relaxed">{getPrompt(current)}</p>
         </div>
 
         {/* ── Flashcard mode ── */}
@@ -387,10 +402,10 @@ export default function PracticeSession({
               <div className="space-y-4">
                 <div className="bg-[#30D158]/8 border border-[#30D158]/20 rounded-2xl p-5">
                   <div className="flex items-center justify-between mb-3">
-                    <p className="text-3 font-semibold text-[#30D158] uppercase tracking-wider">English</p>
-                    <SpeakButton text={current.english} />
+                    <p className="text-3 font-semibold text-[#30D158] uppercase tracking-wider">{toLang.flag} {toLang.label}</p>
+                    <SpeakButton text={getAnswer(current)} locale={toLang.locale} />
                   </div>
-                  <p className="text-[19px] text-[#EEEEF8] leading-relaxed">{current.english}</p>
+                  <p className="text-[19px] text-[#EEEEF8] leading-relaxed">{getAnswer(current)}</p>
                 </div>
                 <div className="flex gap-3">
                   <div className="flex-1 space-y-1.5">
@@ -428,7 +443,7 @@ export default function PracticeSession({
                 onChange={(e) => setUserInput(e.target.value)}
                 disabled={checked}
                 rows={3}
-                placeholder="Type the English translation…"
+                placeholder={`Type the ${toLang.label} translation…`}
                 className="w-full text-[17px] text-[#EEEEF8] placeholder:text-[#55556A] resize-none bg-transparent focus:outline-none disabled:opacity-50"
               />
             </div>
@@ -436,13 +451,13 @@ export default function PracticeSession({
             {checked && (
               <div className="bg-[#161720] border border-[#252638] rounded-2xl p-4 space-y-3">
                 <p className="text-3 font-semibold text-[#55556A] uppercase tracking-wider">Result</p>
-                <AnswerDiff expected={current.english} actual={userInput} />
+                <AnswerDiff expected={getAnswer(current)} actual={userInput} />
                 <div className="pt-3 border-t border-[#252638]">
                   <div className="flex items-center justify-between mb-1.5">
                     <p className="text-[11px] font-semibold text-[#55556A] uppercase tracking-wider">Correct answer</p>
-                    <SpeakButton text={current.english} />
+                    <SpeakButton text={getAnswer(current)} locale={toLang.locale} />
                   </div>
-                  <p className="text-[15px] text-[#EEEEF8] leading-relaxed">{current.english}</p>
+                  <p className="text-[15px] text-[#EEEEF8] leading-relaxed">{getAnswer(current)}</p>
                 </div>
               </div>
             )}
