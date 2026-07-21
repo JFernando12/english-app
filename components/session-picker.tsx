@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { LANGUAGES, DEFAULT_DIRECTION, parseDirection } from '@/lib/types';
+import { Category, LANGUAGES, DEFAULT_DIRECTION, parseDirection } from '@/lib/types';
 
 const SESSION_SIZES = [
   { label: '10',  size: 10,   sub: 'Quick session' },
@@ -30,7 +30,7 @@ function Checkmark() {
   );
 }
 
-export default function SessionPicker({ totalCount }: { totalCount: number }) {
+export default function SessionPicker({ totalCount, category }: { totalCount: number; category: Category }) {
   const init = parseDirection(DEFAULT_DIRECTION);
   const [from, setFrom]       = useState(init.from);
   const [to, setTo]           = useState(init.to);
@@ -140,7 +140,7 @@ export default function SessionPicker({ totalCount }: { totalCount: number }) {
         </p>
         <div className="space-y-2.5">
           {SESSION_SIZES.map(({ label, size, sub }) => {
-            const params = new URLSearchParams({ dir: direction });
+            const params = new URLSearchParams({ dir: direction, cat: category });
             if (size) params.set('size', String(size));
             const href = `/basic/all?${params.toString()}`;
             const title = label === 'All' ? 'Full Deck' : `${label} Sentences`;

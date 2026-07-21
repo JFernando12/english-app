@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { Sentence, Level, Direction, LANGUAGES, DEFAULT_DIRECTION, parseDirection } from '@/lib/types';
+import { Sentence, Direction, LANGUAGES, DEFAULT_DIRECTION, parseDirection } from '@/lib/types';
 import { LocalStorageProgressRepository } from '@/lib/repositories/impl/local-storage-progress-repository';
 import { checkAnswer } from '@/lib/utils/answer-checker';
 import AnswerDiff from './answer-diff';
@@ -32,24 +32,11 @@ function SpeakButton({ text, locale }: { text: string; locale: string }) {
   );
 }
 
-const LEVEL_BADGE: Record<Level, { label: string; color: string }> = {
-  beginner:     { label: 'Beginner',     color: 'text-[#30D158] bg-[#30D158]/10' },
-  intermediate: { label: 'Intermediate', color: 'text-[#FF9F0A] bg-[#FF9F0A]/10' },
-  advanced:     { label: 'Advanced',     color: 'text-[#FF453A] bg-[#FF453A]/10' },
-};
-
-const LEVEL_DOT: Record<Level, string> = {
-  beginner:     'bg-[#30D158]',
-  intermediate: 'bg-[#FF9F0A]',
-  advanced:     'bg-[#FF453A]',
-};
-
 type Mode = 'flashcard' | 'typing';
 
 interface Result {
   correct: boolean;
   score: number;
-  level: Level;
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -167,11 +154,11 @@ export default function PracticeSession({
         } else if (s.showAnswer) {
           if (e.code === 'ArrowLeft') {
             e.preventDefault();
-            doAdvance([...s.results, { correct: false, score: 0, level: s.deck[s.currentIndex].level }], s.currentIndex, s.deck);
+            doAdvance([...s.results, { correct: false, score: 0 }], s.currentIndex, s.deck);
           }
           if (e.code === 'ArrowRight' || e.code === 'Enter') {
             e.preventDefault();
-            doAdvance([...s.results, { correct: true, score: 100, level: s.deck[s.currentIndex].level }], s.currentIndex, s.deck);
+            doAdvance([...s.results, { correct: true, score: 100 }], s.currentIndex, s.deck);
           }
         }
       }
@@ -184,7 +171,7 @@ export default function PracticeSession({
           setChecked(true);
         } else if (s.checked) {
           e.preventDefault();
-          doAdvance([...s.results, { correct: s.checkedScore >= 70, score: s.checkedScore, level: s.deck[s.currentIndex].level }], s.currentIndex, s.deck);
+          doAdvance([...s.results, { correct: s.checkedScore >= 70, score: s.checkedScore }], s.currentIndex, s.deck);
         }
       }
     }
@@ -202,11 +189,11 @@ export default function PracticeSession({
 
   // ── Event handlers ─────────────────────────────────────────────────────────
   function handleGotIt() {
-    doAdvance([...results, { correct: true, score: 100, level: current.level }], currentIndex, deck);
+    doAdvance([...results, { correct: true, score: 100 }], currentIndex, deck);
   }
 
   function handleTryAgain() {
-    doAdvance([...results, { correct: false, score: 0, level: current.level }], currentIndex, deck);
+    doAdvance([...results, { correct: false, score: 0 }], currentIndex, deck);
   }
 
   function handleCheck() {
@@ -216,7 +203,7 @@ export default function PracticeSession({
   }
 
   function handleNext() {
-    doAdvance([...results, { correct: checkedScore >= 70, score: checkedScore, level: current.level }], currentIndex, deck);
+    doAdvance([...results, { correct: checkedScore >= 70, score: checkedScore }], currentIndex, deck);
   }
 
   // ── Result screen ──────────────────────────────────────────────────────────
@@ -226,15 +213,6 @@ export default function PracticeSession({
       : 0;
     const correctCount = results.filter((r) => r.correct).length;
     const emoji = avg >= 80 ? '🎉' : avg >= 50 ? '💪' : '📚';
-
-    const levels: Level[] = ['beginner', 'intermediate', 'advanced'];
-    const levelStats = levels.map((level) => {
-      const lr = results.filter((r) => r.level === level);
-      if (lr.length === 0) return null;
-      const lAvg = Math.round(lr.reduce((s, r) => s + r.score, 0) / lr.length);
-      const lCorrect = lr.filter((r) => r.correct).length;
-      return { level, count: lr.length, avg: lAvg, correct: lCorrect };
-    }).filter(Boolean);
 
     return (
       <div className="min-h-screen bg-[#0D0E14] flex flex-col items-center px-5 py-12">
@@ -265,40 +243,6 @@ export default function PracticeSession({
               </>
             )}
           </div>
-
-          {/* Level breakdown */}
-          {levelStats.length > 1 && (
-            <div className="bg-[#161720] border border-[#252638] rounded-2xl overflow-hidden divide-y divide-[#252638]">
-              <p className="px-5 pt-3 pb-2 text-[11px] font-semibold text-[#55556A] uppercase tracking-wider">
-                By level
-              </p>
-              {levelStats.map((ls) => {
-                if (!ls) return null;
-                const pct = mode === 'flashcard'
-                  ? Math.round((ls.correct / ls.count) * 100)
-                  : ls.avg;
-                const barColor = pct >= 80 ? '#30D158' : pct >= 50 ? '#FF9F0A' : '#FF453A';
-                return (
-                  <div key={ls.level} className="px-5 py-3 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className={`w-2 h-2 rounded-full shrink-0 ${LEVEL_DOT[ls.level]}`} />
-                        <span className="text-3.5 font-medium text-[#EEEEF8] capitalize">{ls.level}</span>
-                        <span className="text-3 text-[#8888A8]">{ls.count}</span>
-                      </div>
-                      <span className="text-3.5 font-semibold text-[#EEEEF8]">{pct}%</span>
-                    </div>
-                    <div className="h-1.5 bg-[#252638] rounded-full overflow-hidden">
-                      <div
-                        className="h-full rounded-full transition-all"
-                        style={{ width: `${pct}%`, backgroundColor: barColor }}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
 
           {/* Actions */}
           <div className="flex flex-col gap-3">
@@ -376,9 +320,6 @@ export default function PracticeSession({
               {fromLang.flag} {fromLang.label} · {currentIndex + 1} of {deck.length}
             </p>
             <div className="flex items-center gap-2">
-              <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${LEVEL_BADGE[current.level].color}`}>
-                {LEVEL_BADGE[current.level].label}
-              </span>
               <SpeakButton text={getPrompt(current)} locale={fromLang.locale} />
             </div>
           </div>

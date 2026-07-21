@@ -4,20 +4,21 @@ import Link from 'next/link';
 
 interface PageProps {
   params: Promise<{ lessonId: string }>;
-  searchParams: Promise<{ size?: string; dir?: string }>;
+  searchParams: Promise<{ size?: string; dir?: string; cat?: string }>;
 }
 
 export default async function LessonPage({ params, searchParams }: PageProps) {
   const { lessonId } = await params;
-  const { size: sizeParam, dir } = await searchParams;
+  const { size: sizeParam, dir, cat } = await searchParams;
   const size = sizeParam ? parseInt(sizeParam, 10) : undefined;
   const direction = dir ?? 'es-to-en';
+  const category = cat === 'standup' ? 'standup' : 'general';
 
   const repo = getSentencesRepository();
 
   const sentences =
     lessonId === 'all'
-      ? await repo.getAllSentences()
+      ? await repo.getAllSentences(category)
       : (await repo.getLessonById(lessonId))?.sentences ?? null;
 
   if (!sentences) {

@@ -1,5 +1,5 @@
 import 'server-only';
-import { Lesson, Sentence } from '@/lib/types';
+import { Category, Lesson, Sentence } from '@/lib/types';
 import { ISentencesRepository } from '../sentences-repository';
 import sentencesData from '../../../sentences/lessons.json';
 
@@ -21,7 +21,8 @@ export class JsonSentencesRepository implements ISentencesRepository {
     return null;
   }
 
-  async getAllSentences(): Promise<Sentence[]> {
-    return loadAll();
+  async getAllSentences(category?: Category): Promise<Sentence[]> {
+    const all = loadAll();
+    return category ? all.filter((s) => s.category === category) : all;
   }
 }

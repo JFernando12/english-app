@@ -1,4 +1,4 @@
-export type Level = 'beginner' | 'intermediate' | 'advanced';
+export type Category = 'general' | 'standup';
 
 /** Format: '{fromLang}-to-{toLang}', e.g. 'es-to-en'. Extensible for future languages. */
 export type Direction = string;
@@ -25,7 +25,7 @@ export interface Sentence {
   id: number;
   spanish: string;
   english: string;
-  level: Level;
+  category: Category;
 }
 
 export interface Lesson {
