@@ -2788,5 +2788,365 @@
     "spanish": "No me di cuenta de que ese cambio iba a afectar a otro equipo hasta que me lo comentaron en el canal.",
     "english": "I didn't realize that change was going to affect another team until they mentioned it in the channel.",
     "category": "standup"
+  },
+  {
+    "id": 1055,
+    "spanish": "Ayer pasé la mayor parte del día investigando un problema de rendimiento que estaba afectando el endpoint de búsqueda, y finalmente logré aislar la causa en una consulta que no estaba usando el índice correcto.",
+    "english": "Yesterday I spent most of the day investigating a performance issue that was affecting the search endpoint, and I finally managed to narrow it down to a query that wasn't using the right index.",
+    "category": "standup"
+  },
+  {
+    "id": 1056,
+    "spanish": "Hoy voy a terminar de escribir las pruebas de integración para el módulo de pagos, y después voy a coordinar con el equipo de QA para que empiecen a probarlo en el ambiente de staging.",
+    "english": "Today I'm going to finish writing the integration tests for the payments module, and then I'm going to coordinate with the QA team so they can start testing it in the staging environment.",
+    "category": "standup"
+  },
+  {
+    "id": 1057,
+    "spanish": "El principal riesgo que veo para esta semana es que todavía dependemos de que el equipo de plataforma termine de exponer el nuevo endpoint, y si eso se retrasa, nuestra fecha de entrega también se va a mover.",
+    "english": "The main risk I see for this week is that we're still depending on the platform team to finish exposing the new endpoint, and if that gets delayed, our delivery date is going to move as well.",
+    "category": "standup"
+  },
+  {
+    "id": 1058,
+    "spanish": "Ayer tuve que revertir el último despliegue porque empezamos a ver un incremento en los errores 500, y todavía estamos tratando de entender si fue por el cambio de configuración o por el nuevo servicio.",
+    "english": "Yesterday I had to roll back the last deployment because we started seeing a spike in 500 errors, and we're still trying to figure out whether it was caused by the configuration change or the new service.",
+    "category": "standup"
+  },
+  {
+    "id": 1059,
+    "spanish": "Voy a necesitar que alguien del equipo de seguridad revise este cambio antes de que lo saquemos a producción, porque toca la lógica de autenticación y no quiero asumir riesgos innecesarios.",
+    "english": "I'm going to need someone from the security team to review this change before we ship it to production, because it touches the authentication logic and I don't want to take any unnecessary risks.",
+    "category": "standup"
+  },
+  {
+    "id": 1060,
+    "spanish": "Estuve pareando con Ana toda la mañana para entender mejor el flujo de facturación, y entre los dos logramos identificar tres casos límite que no estaban cubiertos por las pruebas actuales.",
+    "english": "I paired with Ana all morning to get a better understanding of the billing flow, and together we managed to identify three edge cases that weren't covered by the current tests.",
+    "category": "standup"
+  },
+  {
+    "id": 1061,
+    "spanish": "El bug que reportó el cliente resultó ser más complicado de lo que pensábamos, porque solo ocurre cuando el usuario tiene más de una cuenta asociada al mismo correo.",
+    "english": "The bug the client reported turned out to be more complicated than we thought, because it only happens when the user has more than one account linked to the same email.",
+    "category": "standup"
+  },
+  {
+    "id": 1062,
+    "spanish": "Voy a necesitar que revisemos las prioridades del sprint, porque este ticket urgente que acaba de llegar probablemente va a desplazar algo de lo que teníamos planeado.",
+    "english": "I'm going to need us to revisit the sprint priorities, because this urgent ticket that just came in is probably going to push out something we had planned.",
+    "category": "standup"
+  },
+  {
+    "id": 1063,
+    "spanish": "Terminé de refactorizar el servicio de notificaciones, y aunque los cambios no afectan la funcionalidad, sí deberían facilitar bastante el mantenimiento a futuro.",
+    "english": "I finished refactoring the notifications service, and even though the changes don't affect functionality, they should make future maintenance a lot easier.",
+    "category": "standup"
+  },
+  {
+    "id": 1064,
+    "spanish": "Hoy voy a hacer una sesión de diseño técnico con el equipo antes de empezar a implementar, porque quiero asegurarme de que todos estemos alineados sobre el enfoque antes de escribir código.",
+    "english": "Today I'm going to run a technical design session with the team before I start implementing, because I want to make sure we're all aligned on the approach before writing any code.",
+    "category": "standup"
+  },
+  {
+    "id": 1065,
+    "spanish": "Uno de los bloqueos que tengo es que la documentación del proveedor externo está incompleta, así que voy a tener que hacer pruebas manuales para entender cómo se comporta realmente su API.",
+    "english": "One of the blockers I have is that the third-party provider's documentation is incomplete, so I'm going to have to do manual testing to understand how their API actually behaves.",
+    "category": "standup"
+  },
+  {
+    "id": 1066,
+    "spanish": "Ayer detectamos que el trabajo en segundo plano se estaba ejecutando dos veces bajo ciertas condiciones, lo cual estaba generando registros duplicados en la base de datos.",
+    "english": "Yesterday we found out that the background job was running twice under certain conditions, which was causing duplicate records in the database.",
+    "category": "standup"
+  },
+  {
+    "id": 1067,
+    "spanish": "Voy a proponer que dividamos esta historia en tareas más pequeñas, porque tal como está planteada actualmente va a ser muy difícil de estimar con precisión.",
+    "english": "I'm going to suggest that we split this story into smaller tasks, because as it's currently written, it's going to be very hard to estimate accurately.",
+    "category": "standup"
+  },
+  {
+    "id": 1068,
+    "spanish": "El equipo de infraestructura me confirmó que el nuevo entorno no va a estar disponible hasta la próxima semana, así que voy a tener que ajustar mi plan para esta sprint.",
+    "english": "The infrastructure team confirmed that the new environment isn't going to be available until next week, so I'm going to have to adjust my plan for this sprint.",
+    "category": "standup"
+  },
+  {
+    "id": 1069,
+    "spanish": "Estoy retrasado con esta tarea porque me tuve que desviar para atender un incidente de producción que surgió ayer por la tarde.",
+    "english": "I'm behind on this task because I had to step away to handle a production incident that came up yesterday afternoon.",
+    "category": "standup"
+  },
+  {
+    "id": 1070,
+    "spanish": "Después del daily voy a agendar una llamada rápida con el equipo de producto para aclarar algunos de los requerimientos que todavía no me quedan claros.",
+    "english": "After the daily I'm going to schedule a quick call with the product team to clarify some of the requirements that are still not clear to me.",
+    "category": "standup"
+  },
+  {
+    "id": 1071,
+    "spanish": "Ya identifiqué la causa raíz del problema de memoria, y resulta que teníamos una fuga en el servicio que procesa las imágenes que suben los usuarios.",
+    "english": "I've already identified the root cause of the memory issue, and it turns out we had a leak in the service that processes the images users upload.",
+    "category": "standup"
+  },
+  {
+    "id": 1072,
+    "spanish": "Voy a necesitar acceso temporal a los registros de producción para poder diagnosticar correctamente por qué algunos usuarios están reportando tiempos de carga tan altos.",
+    "english": "I'm going to need temporary access to the production logs so I can properly diagnose why some users are reporting such high load times.",
+    "category": "standup"
+  },
+  {
+    "id": 1073,
+    "spanish": "Aunque el ticket parecía sencillo al principio, terminé encontrando varias dependencias con otros servicios que no estaban documentadas.",
+    "english": "Although the ticket seemed simple at first, I ended up finding several dependencies on other services that weren't documented.",
+    "category": "standup"
+  },
+  {
+    "id": 1074,
+    "spanish": "Quiero que revisemos juntos el diseño de esta funcionalidad antes de que el resto del equipo empiece a construir sobre ella, para evitar tener que rehacer trabajo más adelante.",
+    "english": "I want us to review this feature's design together before the rest of the team starts building on top of it, so we can avoid having to redo work later on.",
+    "category": "standup"
+  },
+  {
+    "id": 1075,
+    "spanish": "Voy a estar fuera de la oficina el jueves, así que si algo urgente surge con este proyecto, le voy a pasar el contexto a Carlos para que pueda cubrirme.",
+    "english": "I'm going to be out of the office on Thursday, so if anything urgent comes up with this project, I'm going to hand off the context to Carlos so he can cover for me.",
+    "category": "standup"
+  },
+  {
+    "id": 1076,
+    "spanish": "Todavía no he podido reproducir el error que reportaron en producción, así que voy a pedirle al equipo de soporte más detalles sobre los pasos exactos que siguió el usuario.",
+    "english": "I still haven't been able to reproduce the error that was reported in production, so I'm going to ask the support team for more details about the exact steps the user followed.",
+    "category": "standup"
+  },
+  {
+    "id": 1077,
+    "spanish": "El pull request quedó bastante grande porque incluía tanto el cambio de backend como el de frontend, así que la próxima vez lo voy a dividir en partes más pequeñas.",
+    "english": "The pull request ended up being pretty large because it included both the backend and frontend changes, so next time I'm going to split it into smaller parts.",
+    "category": "standup"
+  },
+  {
+    "id": 1078,
+    "spanish": "Estamos esperando la confirmación del equipo legal antes de poder habilitar esta función para los usuarios de la Unión Europea.",
+    "english": "We're waiting for confirmation from the legal team before we can enable this feature for users in the European Union.",
+    "category": "standup"
+  },
+  {
+    "id": 1079,
+    "spanish": "Voy a necesitar que reprioricemos el backlog, porque varias de las tareas que teníamos para este sprint ya no son tan urgentes como pensábamos.",
+    "english": "I'm going to need us to reprioritize the backlog, because several of the tasks we had planned for this sprint aren't as urgent as we thought anymore.",
+    "category": "standup"
+  },
+  {
+    "id": 1080,
+    "spanish": "Logré reducir el tiempo de respuesta del endpoint principal de casi tres segundos a menos de quinientos milisegundos, principalmente optimizando las consultas a la base de datos.",
+    "english": "I managed to reduce the main endpoint's response time from almost three seconds to under five hundred milliseconds, mainly by optimizing the database queries.",
+    "category": "standup"
+  },
+  {
+    "id": 1081,
+    "spanish": "Antes de continuar con la implementación, quiero confirmar con el equipo de diseño si este comportamiento es el esperado cuando el usuario cancela la operación a la mitad.",
+    "english": "Before continuing with the implementation, I want to confirm with the design team whether this is the expected behavior when the user cancels the operation halfway through.",
+    "category": "standup"
+  },
+  {
+    "id": 1082,
+    "spanish": "Vamos a necesitar coordinarnos con el equipo de otro país porque ellos también están trabajando en un cambio que va a afectar la misma tabla de la base de datos.",
+    "english": "We're going to need to coordinate with the team in another country because they're also working on a change that's going to affect the same database table.",
+    "category": "standup"
+  },
+  {
+    "id": 1083,
+    "spanish": "Terminé de documentar el proceso de despliegue manual, así que si vuelve a fallar la automatización, cualquiera del equipo va a poder seguir los pasos sin depender de mí.",
+    "english": "I finished documenting the manual deployment process, so if the automation fails again, anyone on the team will be able to follow the steps without depending on me.",
+    "category": "standup"
+  },
+  {
+    "id": 1084,
+    "spanish": "Creo que vamos a necesitar una reunión aparte para discutir la arquitectura de este servicio, porque es un tema que no se puede resolver bien en un daily de quince minutos.",
+    "english": "I think we're going to need a separate meeting to discuss this service's architecture, because it's not something we can properly sort out in a fifteen-minute daily.",
+    "category": "standup"
+  },
+  {
+    "id": 1085,
+    "spanish": "Terminé de revisar el pull request de Miguel y le dejé varios comentarios sobre el manejo de errores, pero en general la implementación me pareció bastante sólida.",
+    "english": "I finished reviewing Miguel's pull request and left several comments about the error handling, but overall I thought the implementation was pretty solid.",
+    "category": "standup"
+  },
+  {
+    "id": 1086,
+    "spanish": "Hoy voy a dedicar tiempo a pagar algo de deuda técnica en el módulo de autenticación, porque cada vez que tocamos ese código nos toma más tiempo del que debería.",
+    "english": "Today I'm going to spend some time paying down technical debt in the authentication module, because every time we touch that code it takes longer than it should.",
+    "category": "standup"
+  },
+  {
+    "id": 1087,
+    "spanish": "Configuramos una alerta nueva para detectar cuando la cola de mensajes empieza a acumularse, así que si eso vuelve a pasar nos vamos a enterar mucho antes.",
+    "english": "We set up a new alert to detect when the message queue starts backing up, so if that happens again we'll find out much sooner.",
+    "category": "standup"
+  },
+  {
+    "id": 1088,
+    "spanish": "Voy a lanzar este cambio detrás de un feature flag primero, para poder activarlo solo para un pequeño porcentaje de usuarios y monitorear que todo funcione bien antes de habilitarlo para todos.",
+    "english": "I'm going to roll this change out behind a feature flag first, so I can enable it for a small percentage of users and make sure everything works well before turning it on for everyone.",
+    "category": "standup"
+  },
+  {
+    "id": 1089,
+    "spanish": "Como hay compañeros en otra zona horaria que no pueden estar en este daily, voy a dejar mi actualización por escrito en el canal para que la puedan leer cuando se conecten.",
+    "english": "Since there are teammates in another time zone who can't make this daily, I'm going to leave my update in writing in the channel so they can read it when they log on.",
+    "category": "standup"
+  },
+  {
+    "id": 1090,
+    "spanish": "Esta semana me toca estar de guardia, así que si algo se cae durante la noche probablemente voy a llegar un poco más cansado al daily de mañana.",
+    "english": "I'm on call this week, so if something goes down overnight I'll probably show up to tomorrow's daily a bit more tired than usual.",
+    "category": "standup"
+  },
+  {
+    "id": 1091,
+    "spanish": "Voy a actualizar la documentación del proyecto porque me di cuenta de que varios pasos ya no coinciden con cómo funciona realmente el sistema.",
+    "english": "I'm going to update the project documentation because I noticed several steps no longer match how the system actually works.",
+    "category": "standup"
+  },
+  {
+    "id": 1092,
+    "spanish": "Estoy ayudando al nuevo integrante del equipo a configurar su entorno de desarrollo, así que hoy voy a avanzar un poco más lento de lo normal en mis propias tareas.",
+    "english": "I'm helping the new team member set up their development environment, so today I'm going to move a bit slower than usual on my own tasks.",
+    "category": "standup"
+  },
+  {
+    "id": 1093,
+    "spanish": "Corrimos las pruebas de carga anoche y el sistema aguantó bien hasta cierto punto, pero empezó a degradarse cuando superamos el doble del tráfico esperado.",
+    "english": "We ran the load tests last night and the system held up fine up to a point, but it started degrading once we went past double the expected traffic.",
+    "category": "standup"
+  },
+  {
+    "id": 1094,
+    "spanish": "Vamos a necesitar actualizar esta librería porque la versión que estamos usando tiene una vulnerabilidad de seguridad que el equipo de seguridad marcó como crítica.",
+    "english": "We're going to need to update this library because the version we're using has a security vulnerability that the security team flagged as critical.",
+    "category": "standup"
+  },
+  {
+    "id": 1095,
+    "spanish": "Ese ticket lo voy a dejar en pausa por ahora, porque descubrí que depende de una decisión de producto que todavía no está definida.",
+    "english": "I'm going to put that ticket on hold for now, because I found out it depends on a product decision that hasn't been made yet.",
+    "category": "standup"
+  },
+  {
+    "id": 1096,
+    "spanish": "Le voy a dar seguimiento al cliente que reportó el problema para confirmar que la solución que desplegamos ayer efectivamente resolvió su caso.",
+    "english": "I'm going to follow up with the client who reported the issue to confirm that the fix we deployed yesterday actually resolved their case.",
+    "category": "standup"
+  },
+  {
+    "id": 1097,
+    "spanish": "Notamos que una de las pruebas automatizadas está fallando de manera intermitente, así que voy a investigar si es un problema real o simplemente una prueba mal escrita.",
+    "english": "We noticed one of the automated tests is failing intermittently, so I'm going to look into whether it's a real issue or just a poorly written test.",
+    "category": "standup"
+  },
+  {
+    "id": 1098,
+    "spanish": "Vamos a tener que hacer una migración de datos este fin de semana, y quiero asegurarme de que tengamos un plan claro de reversión por si algo sale mal.",
+    "english": "We're going to have to run a data migration this weekend, and I want to make sure we have a clear rollback plan in case something goes wrong.",
+    "category": "standup"
+  },
+  {
+    "id": 1099,
+    "spanish": "El costo de este servicio en la nube subió bastante el mes pasado, así que voy a revisar qué está consumiendo tantos recursos antes de seguir escalando.",
+    "english": "The cost of this cloud service went up quite a bit last month, so I'm going to look into what's consuming so many resources before we keep scaling it.",
+    "category": "standup"
+  },
+  {
+    "id": 1100,
+    "spanish": "Terminé el spike técnico que me asignaron, y mi recomendación es que usemos la segunda opción porque va a ser más fácil de mantener a largo plazo.",
+    "english": "I finished the technical spike I was assigned, and my recommendation is that we go with the second option because it's going to be easier to maintain in the long run.",
+    "category": "standup"
+  },
+  {
+    "id": 1101,
+    "spanish": "Ayer tuvimos un pequeño incidente en producción, y hoy en la tarde vamos a hacer una retrospectiva para entender qué falló y cómo evitar que se repita.",
+    "english": "We had a small incident in production yesterday, and this afternoon we're going to do a postmortem to understand what went wrong and how to prevent it from happening again.",
+    "category": "standup"
+  },
+  {
+    "id": 1102,
+    "spanish": "Voy a necesitar que alguien del equipo de datos me confirme si podemos usar esta información sin violar ninguna política de privacidad.",
+    "english": "I'm going to need someone from the data team to confirm whether we can use this information without violating any privacy policy.",
+    "category": "standup"
+  },
+  {
+    "id": 1103,
+    "spanish": "El ambiente de pruebas no se comporta igual que producción, así que algunos de los problemas que estamos viendo podrían no ser reales.",
+    "english": "The test environment doesn't behave the same way as production, so some of the issues we're seeing might not be real.",
+    "category": "standup"
+  },
+  {
+    "id": 1104,
+    "spanish": "Voy a proponer que agreguemos una prueba automatizada para este caso, porque ya es la segunda vez que se nos escapa el mismo error hasta producción.",
+    "english": "I'm going to suggest we add an automated test for this case, because this is already the second time the same bug has slipped through to production.",
+    "category": "standup"
+  },
+  {
+    "id": 1105,
+    "spanish": "Hoy voy a escribir las notas de la nueva versión para que el equipo de soporte sepa exactamente qué cambió y pueda responder mejor a los usuarios.",
+    "english": "Today I'm going to write the release notes for the new version so the support team knows exactly what changed and can respond to users more effectively.",
+    "category": "standup"
+  },
+  {
+    "id": 1106,
+    "spanish": "Vamos a tener que mantener las dos versiones de la API funcionando al mismo tiempo por un tiempo, mientras los clientes terminan de migrar a la nueva.",
+    "english": "We're going to have to keep both versions of the API running at the same time for a while, while clients finish migrating to the new one.",
+    "category": "standup"
+  },
+  {
+    "id": 1107,
+    "spanish": "Un cliente grande escaló este problema directamente con el equipo de ventas, así que probablemente vamos a tener que priorizarlo por encima de lo que teníamos planeado.",
+    "english": "A big client escalated this issue directly with the sales team, so we're probably going to have to prioritize it over what we had planned.",
+    "category": "standup"
+  },
+  {
+    "id": 1108,
+    "spanish": "Voy a marcar esta parte del código como obsoleta y avisarle al resto del equipo, para que nadie siga construyendo funcionalidad nueva sobre algo que vamos a eliminar pronto.",
+    "english": "I'm going to mark this part of the code as deprecated and let the rest of the team know, so no one keeps building new functionality on top of something we're going to remove soon.",
+    "category": "standup"
+  },
+  {
+    "id": 1109,
+    "spanish": "Nuestra velocidad bajó un poco este sprint, principalmente porque dedicamos bastante tiempo a resolver incidentes que no estaban planeados.",
+    "english": "Our velocity dropped a bit this sprint, mainly because we spent a lot of time dealing with incidents that weren't planned.",
+    "category": "standup"
+  },
+  {
+    "id": 1110,
+    "spanish": "Voy a revisar si este componente cumple con los estándares de accesibilidad, porque el equipo de producto mencionó que es un requisito para este lanzamiento.",
+    "english": "I'm going to check whether this component meets accessibility standards, because the product team mentioned it's a requirement for this release.",
+    "category": "standup"
+  },
+  {
+    "id": 1111,
+    "spanish": "El equipo de otro país ya terminó su parte del proyecto, así que ahora el bloqueo está completamente de nuestro lado.",
+    "english": "The team in the other country already finished their part of the project, so now the blocker is entirely on our side.",
+    "category": "standup"
+  },
+  {
+    "id": 1112,
+    "spanish": "Voy a documentar los pasos que seguí para resolver este incidente, para que la próxima vez que pase alguien pueda resolverlo más rápido sin depender de mí.",
+    "english": "I'm going to document the steps I took to resolve this incident, so the next time it happens someone can fix it faster without depending on me.",
+    "category": "standup"
+  },
+  {
+    "id": 1113,
+    "spanish": "Antes de cerrar este ticket, quiero que alguien más lo pruebe, porque yo ya estoy tan metido en el código que se me puede estar pasando algo obvio.",
+    "english": "Before closing this ticket, I want someone else to test it, because I'm so deep into the code at this point that I might be missing something obvious.",
+    "category": "standup"
+  },
+  {
+    "id": 1114,
+    "spanish": "Vamos a necesitar coordinar una ventana de mantenimiento con el cliente, porque este cambio va a requerir un tiempo de inactividad breve en su ambiente de producción.",
+    "english": "We're going to need to coordinate a maintenance window with the client, because this change is going to require brief downtime in their production environment.",
+    "category": "standup"
   }
 ]
